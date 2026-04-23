@@ -70,7 +70,8 @@ export async function POST(req: Request) {
 
     // 1. Create User & Account via Better Auth Admin API
     // This handles password hashing, roles, and linking correctly in one call
-    const authResult = await auth.api.createUser({
+    // Using type assertion to access admin plugin's createUser method
+    const authResult = await (auth as any).admin.createUser({
       body: {
         email,
         password,
