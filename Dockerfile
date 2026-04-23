@@ -5,12 +5,15 @@ FROM oven/bun:alpine AS base
 
 WORKDIR /app
 
+# Install system dependencies including Node.js (needed for some postinstall scripts)
 RUN apk add --no-cache \
     libc6-compat \
     libpq \
     openssl \
     ca-certificates \
-    wget
+    wget \
+    nodejs \
+    npm
 
 # ============================================
 # Dependencies Stage - Install all packages
@@ -19,23 +22,24 @@ FROM base AS deps
 
 COPY bun.lock* package.json* ./
 
+# Install dependencies
 RUN bun install --prefer-offline
 
 # ============================================
 # Production Build Stage - Build the app
 # ============================================
-FROM base AS builder
+FROM deps AS builder
 
 WORKDIR /app
 
-COPY --from=deps /app/node_modules /app/node_modules
-COPY --from=deps /app/bun.lock /app/bun.lock
+# Copy the rest of the application code
 COPY . .
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS="--max-old-space-size=2048"
 
+# Build the application
 RUN bun run build
 
 # ============================================
@@ -51,6 +55,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
+# Copy standalone build and necessary files
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./
@@ -67,4 +72,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-CMD ["bun", "run", "start"]
+CMD ["bun", "run", "server.js"]
