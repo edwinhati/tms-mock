@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { useWarehouses } from "./use-warehouses";
+import { useCustomers } from "./use-customers";
 import { useHubs } from "./use-hubs";
 import { usePorts } from "./use-ports";
 import { useSchools } from "./use-schools";
 import { useVendorsHook as useVendors } from "./use-vendors";
-import { useCustomers } from "./use-customers";
+import { useWarehouses } from "./use-warehouses";
 
 export type SiteType =
   | "warehouse"

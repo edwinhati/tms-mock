@@ -1,6 +1,6 @@
-import { db } from "@/lib/db";
-import { users, drivers } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { db } from "@/lib/db";
+import { drivers, users } from "@/lib/db/schema";
 
 export async function PUT(
   req: Request,
@@ -49,7 +49,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {

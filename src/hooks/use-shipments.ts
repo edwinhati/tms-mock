@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/client";
+import { apiGet, apiPost } from "@/lib/api/client";
 import type {
   CreateShipmentRequest,
   Shipment,

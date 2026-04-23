@@ -1,11 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -33,19 +33,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormInput, FormSelect } from "@/components/ui/form-wrapper";
-import { useSites, type SiteType } from "@/hooks/use-sites";
 import {
   useCreateShippingRate,
   useDeleteShippingRate,
   useShippingRates,
   useUpdateShippingRate,
 } from "@/hooks/use-shipping-rates";
+import { type SiteType, useSites } from "@/hooks/use-sites";
+import { type ShippingRateFormValues, shippingRateSchema } from "@/lib/schemas";
 import type {
   CreateShippingRateInput,
   ShippingRateWithRelations,
   VehicleType,
 } from "@/types/tms";
-import { shippingRateSchema, type ShippingRateFormValues } from "@/lib/schemas";
 
 const vehicleTypes: { value: VehicleType; label: string }[] = [
   { value: "truck", label: "Truck" },

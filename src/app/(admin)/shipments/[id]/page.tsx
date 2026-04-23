@@ -14,8 +14,8 @@ import { Progress } from "@/components/ui/progress";
 import { DetailPageSkeleton } from "@/components/ui/skeletons";
 import {
   useShipment,
-  useUpdateShipmentStatus,
   useUpdateLegStatus,
+  useUpdateShipmentStatus,
 } from "@/hooks/use-shipments";
 
 export default function ShipmentDetailPage() {
@@ -184,7 +184,7 @@ export default function ShipmentDetailPage() {
                   {shipment.legs.map((leg, index) => {
                     const isFirstLeg = leg.legNumber === 1;
                     const prevLeg =
-                      index > 0 ? shipment.legs![index - 1] : null;
+                      index > 0 ? shipment.legs?.[index - 1] : null;
                     const canStart =
                       isFirstLeg || prevLeg?.status === "completed";
 

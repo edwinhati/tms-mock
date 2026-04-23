@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { AddressSelector } from "@/components/ui/address-selector";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,7 +34,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormInput } from "@/components/ui/form-wrapper";
-import { AddressSelector } from "@/components/ui/address-selector";
 import {
   useCreateCustomer,
   useCustomers,

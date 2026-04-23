@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { UseFormReturn, FieldValues, Path } from "react-hook-form";
+import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { FormSelect, FormTextarea } from "@/components/ui/form-wrapper";
 import {
+  useDistricts,
   useProvinces,
   useRegencies,
-  useDistricts,
   useVillages,
 } from "@/hooks/use-wilayah";
 
@@ -19,13 +19,15 @@ export function AddressSelector<T extends FieldValues>({
   form,
   prefix = "",
 }: AddressSelectorProps<T>) {
-  const getFieldName = (name: string) =>
-    (prefix ? `${prefix}.${name}` : name) as Path<T>;
+  const getFieldName = React.useCallback(
+    (name: string) => (prefix ? `${prefix}.${name}` : name) as Path<T>,
+    [prefix],
+  );
 
   const provinceCode = form.watch(getFieldName("provinceCode"));
   const cityCode = form.watch(getFieldName("cityCode"));
   const districtCode = form.watch(getFieldName("districtCode"));
-  const villageCode = form.watch(getFieldName("villageCode"));
+  const _villageCode = form.watch(getFieldName("villageCode"));
 
   const { data: provinces, isLoading: loadingProvinces } = useProvinces();
   const { data: cities, isLoading: loadingCities } = useRegencies(provinceCode);
@@ -36,7 +38,7 @@ export function AddressSelector<T extends FieldValues>({
 
   // Update names and handle cascading reset
   React.useEffect(() => {
-    const subscription = form.watch((value, { name, type }) => {
+    const subscription = form.watch((_value, { name, type }) => {
       // Only handle manual changes, not setValue calls unless they are from the UI
       // type can be "change" for user input
       if (type !== "change") return;
@@ -49,50 +51,41 @@ export function AddressSelector<T extends FieldValues>({
       if (name === fullProvinceName) {
         const currentVal = form.getValues(fullProvinceName);
         const selected = provinces?.find((p) => p.code === currentVal);
-        form.setValue(
-          getFieldName("provinceName"),
-          (selected?.name || "") as any,
-        );
+        form.setValue(getFieldName("provinceName"), selected?.name || "");
 
         // Reset children
-        form.setValue(getFieldName("cityCode"), "" as any);
-        form.setValue(getFieldName("cityName"), "" as any);
-        form.setValue(getFieldName("districtCode"), "" as any);
-        form.setValue(getFieldName("districtName"), "" as any);
-        form.setValue(getFieldName("villageCode"), "" as any);
-        form.setValue(getFieldName("villageName"), "" as any);
+        form.setValue(getFieldName("cityCode"), "");
+        form.setValue(getFieldName("cityName"), "");
+        form.setValue(getFieldName("districtCode"), "");
+        form.setValue(getFieldName("districtName"), "");
+        form.setValue(getFieldName("villageCode"), "");
+        form.setValue(getFieldName("villageName"), "");
       } else if (name === fullCityName) {
         const currentVal = form.getValues(fullCityName);
         const selected = cities?.find((c) => c.code === currentVal);
-        form.setValue(getFieldName("cityName"), (selected?.name || "") as any);
+        form.setValue(getFieldName("cityName"), selected?.name || "");
 
         // Reset children
-        form.setValue(getFieldName("districtCode"), "" as any);
-        form.setValue(getFieldName("districtName"), "" as any);
-        form.setValue(getFieldName("villageCode"), "" as any);
-        form.setValue(getFieldName("villageName"), "" as any);
+        form.setValue(getFieldName("districtCode"), "");
+        form.setValue(getFieldName("districtName"), "");
+        form.setValue(getFieldName("villageCode"), "");
+        form.setValue(getFieldName("villageName"), "");
       } else if (name === fullDistrictName) {
         const currentVal = form.getValues(fullDistrictName);
         const selected = districts?.find((d) => d.code === currentVal);
-        form.setValue(
-          getFieldName("districtName"),
-          (selected?.name || "") as any,
-        );
+        form.setValue(getFieldName("districtName"), selected?.name || "");
 
         // Reset children
-        form.setValue(getFieldName("villageCode"), "" as any);
-        form.setValue(getFieldName("villageName"), "" as any);
+        form.setValue(getFieldName("villageCode"), "");
+        form.setValue(getFieldName("villageName"), "");
       } else if (name === fullVillageName) {
         const currentVal = form.getValues(fullVillageName);
         const selected = villages?.find((v) => v.code === currentVal);
-        form.setValue(
-          getFieldName("villageName"),
-          (selected?.name || "") as any,
-        );
+        form.setValue(getFieldName("villageName"), selected?.name || "");
       }
     });
     return () => subscription.unsubscribe();
-  }, [form, provinces, cities, districts, villages, prefix]);
+  }, [form, provinces, cities, districts, villages, getFieldName]);
 
   return (
     <div className="grid gap-4 sm:grid-cols-2">

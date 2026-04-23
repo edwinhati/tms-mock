@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { usePathname } from "next/navigation";
 import {
   IconBox,
   IconBuildingStore,
@@ -15,7 +13,8 @@ import {
   IconTruckDelivery,
   IconUsers,
 } from "@tabler/icons-react";
-
+import { usePathname, useRouter } from "next/navigation";
+import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -30,9 +29,8 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 import { signOut } from "@/lib/auth/client";
-import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   {
@@ -208,6 +206,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
       <SidebarFooter className="p-4 space-y-4">
         <div className="px-2">
           <button
+            type="button"
             onClick={handleLogout}
             className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-lg transition-colors group"
           >

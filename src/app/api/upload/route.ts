@@ -1,6 +1,6 @@
-import { writeFile } from "fs/promises";
+import { writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { type NextRequest, NextResponse } from "next/server";
-import { join } from "path";
 import { auth } from "@/lib/auth";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];

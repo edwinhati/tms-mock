@@ -5,12 +5,12 @@ import {
   PROTECTED_PATHS,
   PUBLIC_PATHS,
 } from "@/lib/auth/constants";
-import { auth } from "@/lib/auth/server";
 import {
-  getUserRole,
   canAccessAdminDashboard,
   canAccessDriverApp,
+  getUserRole,
 } from "@/lib/auth/roles";
+import { auth } from "@/lib/auth/server";
 
 const PUBLIC_FILE = /\.(.*)$/;
 

@@ -1,5 +1,5 @@
-import { endOfDay, startOfDay, subDays } from "date-fns";
-import { and, count, eq, gte, lte, sql } from "drizzle-orm";
+import { endOfDay, startOfDay } from "date-fns";
+import { count, eq, sql } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db";

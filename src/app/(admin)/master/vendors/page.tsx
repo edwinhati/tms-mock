@@ -1,12 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { AddressSelector } from "@/components/ui/address-selector";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,17 +34,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormInput } from "@/components/ui/form-wrapper";
-import { AddressSelector } from "@/components/ui/address-selector";
 import {
   useCreateVendor,
   useDeleteVendor,
   useVendorsHook,
 } from "@/hooks/use-vendors";
-import { vendorSchema, type VendorFormValues } from "@/lib/schemas";
+import { type VendorFormValues, vendorSchema } from "@/lib/schemas";
 import type { Vendor } from "@/types/tms";
 
 export default function VendorsPage() {
-  const { data: vendors, isLoading, isError, refetch } = useVendorsHook();
+  const { data: vendors, isLoading } = useVendorsHook();
   const deleteVendor = useDeleteVendor();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);

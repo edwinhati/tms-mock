@@ -9,7 +9,6 @@ import {
   Database,
   Loader2,
   MapPin,
-  Package,
   WifiOff,
 } from "lucide-react";
 import Link from "next/link";
@@ -38,6 +37,12 @@ export default function DriverShipmentDetailPage() {
   const [pendingCount, setPendingCount] = useState(0);
   const [showOfflineToast, setShowOfflineToast] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const updatePendingCount = useCallback(async () => {
+    const updates = await storage.getPendingUpdates();
+    const count = updates.filter((u) => u.shipmentId === id).length;
+    setPendingCount(count);
+  }, [id]);
 
   useEffect(() => {
     setIsOffline(!sync.isOnline());
@@ -70,7 +75,7 @@ export default function DriverShipmentDetailPage() {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, [id]);
+  }, [id, updatePendingCount]);
 
   useEffect(() => {
     if (shipment) {
@@ -78,12 +83,6 @@ export default function DriverShipmentDetailPage() {
       setCachedShipment(shipment);
     }
   }, [shipment]);
-
-  const updatePendingCount = async () => {
-    const updates = await storage.getPendingUpdates();
-    const count = updates.filter((u) => u.shipmentId === id).length;
-    setPendingCount(count);
-  };
 
   const isLoading = isLoadingNetwork && isLoadingCache;
   const displayShipment = shipment ?? cachedShipment;
@@ -134,7 +133,7 @@ export default function DriverShipmentDetailPage() {
         setShowOfflineToast(true);
         setTimeout(() => setShowOfflineToast(false), 5000);
         await updatePendingCount();
-      } catch (queueError) {
+      } catch (_queueError) {
         alert("Failed to save update. Please try again.");
       }
     } finally {
@@ -191,7 +190,7 @@ export default function DriverShipmentDetailPage() {
         setShowOfflineToast(true);
         setTimeout(() => setShowOfflineToast(false), 5000);
         await updatePendingCount();
-      } catch (queueError) {
+      } catch (_queueError) {
         alert("Failed to queue photo. Please try again.");
       }
     } finally {

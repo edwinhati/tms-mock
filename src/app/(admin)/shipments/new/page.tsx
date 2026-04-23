@@ -15,18 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ErrorState } from "@/components/ui/error-state";
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import {
   Combobox,
   ComboboxContent,
@@ -36,14 +24,16 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
-import { FormSkeleton, StepIndicatorSkeleton } from "@/components/ui/skeletons";
-import { Textarea } from "@/components/ui/textarea";
-import { useCustomers } from "@/hooks/use-customers";
-import { useDrivers } from "@/hooks/use-drivers";
-import { useGoods } from "@/hooks/use-goods";
-import { useSites, type SiteType } from "@/hooks/use-sites";
-import { useCreateShipment } from "@/hooks/use-shipments";
-import { useVehicles } from "@/hooks/use-vehicles";
+import { ErrorState } from "@/components/ui/error-state";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -51,6 +41,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { FormSkeleton, StepIndicatorSkeleton } from "@/components/ui/skeletons";
+import { Textarea } from "@/components/ui/textarea";
+import { useCustomers } from "@/hooks/use-customers";
+import { useDrivers } from "@/hooks/use-drivers";
+import { useGoods } from "@/hooks/use-goods";
+import { useCreateShipment } from "@/hooks/use-shipments";
+import { type SiteType, useSites } from "@/hooks/use-sites";
+import { useVehicles } from "@/hooks/use-vehicles";
 
 // Form schemas
 const shipmentItemSchema = z.object({
@@ -284,60 +282,51 @@ export default function CreateShipmentPage() {
         />
       ) : (
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          {step === 1 && (
-            <>
-              {isStep1Loading ? (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Order Details</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <FormSkeleton fieldCount={6} />
-                  </CardContent>
-                </Card>
-              ) : (
-                <OrderDetailsStep form={form} customers={customers || []} />
-              )}
-            </>
-          )}
+          {step === 1 &&
+            (isStep1Loading ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Order Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FormSkeleton fieldCount={6} />
+                </CardContent>
+              </Card>
+            ) : (
+              <OrderDetailsStep form={form} customers={customers || []} />
+            ))}
 
-          {step === 2 && (
-            <>
-              {isStep2Loading ? (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Shipment Items</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <FormSkeleton fieldCount={4} />
-                  </CardContent>
-                </Card>
-              ) : (
-                <ItemsStep form={form} goods={goods || []} />
-              )}
-            </>
-          )}
+          {step === 2 &&
+            (isStep2Loading ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Shipment Items</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FormSkeleton fieldCount={4} />
+                </CardContent>
+              </Card>
+            ) : (
+              <ItemsStep form={form} goods={goods || []} />
+            ))}
 
-          {step === 3 && (
-            <>
-              {isStep3Loading ? (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Routing & Legs</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <FormSkeleton fieldCount={6} />
-                  </CardContent>
-                </Card>
-              ) : (
-                <RoutingStep
-                  form={form}
-                  vehicles={vehicles || []}
-                  drivers={drivers || []}
-                />
-              )}
-            </>
-          )}
+          {step === 3 &&
+            (isStep3Loading ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Routing & Legs</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FormSkeleton fieldCount={6} />
+                </CardContent>
+              </Card>
+            ) : (
+              <RoutingStep
+                form={form}
+                vehicles={vehicles || []}
+                drivers={drivers || []}
+              />
+            ))}
 
           <div className="flex flex-col sm:flex-row justify-between mt-8 gap-4">
             <Button
@@ -790,7 +779,7 @@ function ItemsStep({
                             aria-invalid={fieldState.invalid}
                             onChange={(e) =>
                               controllerField.onChange(
-                                parseInt(e.target.value) || 1,
+                                parseInt(e.target.value, 10) || 1,
                               )
                             }
                           />

@@ -1,9 +1,8 @@
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { ports } from "@/lib/db/schema/tms";
-import { eq } from "drizzle-orm";
 import { portSchema } from "@/lib/schemas";
-import crypto from "crypto";
 
 export async function GET() {
   try {

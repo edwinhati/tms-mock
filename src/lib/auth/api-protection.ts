@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { auth } from "./server";
-import { getUserRole, hasPermission, type UserRole } from "./roles";
 import type { RolePermissions } from "./roles";
+import { getUserRole, hasPermission, type UserRole } from "./roles";
+import { auth } from "./server";
 
 export interface ProtectionOptions {
   requiredRole?: UserRole | UserRole[];
@@ -15,7 +15,7 @@ export async function protectAPIRoute(
   request: NextRequest,
   options?: ProtectionOptions,
 ): Promise<
-  | { authorized: true; session: any; userRole: UserRole }
+  | { authorized: true; session: unknown; userRole: UserRole }
   | { authorized: false; response: NextResponse }
 > {
   // Check authentication
@@ -78,11 +78,11 @@ export async function protectAPIRoute(
 export function withAuth(
   handler: (
     request: NextRequest,
-    context: { params: any; session: any; userRole: UserRole },
+    context: { params: unknown; session: unknown; userRole: UserRole },
   ) => Promise<NextResponse>,
   options?: ProtectionOptions,
 ) {
-  return async (request: NextRequest, { params }: { params: any }) => {
+  return async (request: NextRequest, { params }: { params: unknown }) => {
     const protection = await protectAPIRoute(request, options);
 
     if (!protection.authorized) {

@@ -10,7 +10,7 @@ if (!process.env.DATABASE_URL) {
 // especially during Next.js HMR/Hot Reloading in development
 const globalForSqlClient = globalThis as unknown as {
   sqlClient: postgres.Sql | undefined;
-  db: any | undefined;
+  db: postgres.Sql | undefined; // Changed 'any' to 'postgres.Sql'
 };
 
 // Use postgres-js which is more portable across runtimes

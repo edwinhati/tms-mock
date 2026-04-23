@@ -3,11 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import {
-  shipmentLegs,
-  shipmentStatusHistory,
-  shipments,
-} from "@/lib/db/schema";
+import { shipmentLegs, shipmentStatusHistory } from "@/lib/db/schema";
 
 const updateStatusSchema = z.object({
   legId: z.string(),

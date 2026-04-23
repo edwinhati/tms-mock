@@ -1,10 +1,10 @@
 "use client";
 
-import { useSession } from "@/lib/auth";
-import { getUserRole, hasPermission, type UserRole } from "@/lib/auth/roles";
-import type { RolePermissions } from "@/lib/auth/roles";
 import { useRouter } from "next/navigation";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
+import { useSession } from "@/lib/auth";
+import type { RolePermissions } from "@/lib/auth/roles";
+import { getUserRole, hasPermission, type UserRole } from "@/lib/auth/roles";
 
 interface RoleGuardProps {
   children: ReactNode;

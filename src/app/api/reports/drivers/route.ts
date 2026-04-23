@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
 
-    const dateConditions: any[] = [];
+    const dateConditions: unknown[] = [];
     if (startDate) {
       dateConditions.push(gte(shipmentLegs.createdAt, parseISO(startDate)));
     }

@@ -94,8 +94,7 @@ export async function sendWhatsAppNotification(
       // Wait before retrying (exponential backoff)
       if (attempt < RATE_LIMIT.maxRetries - 1) {
         const delay =
-          RATE_LIMIT.retryDelay *
-          Math.pow(RATE_LIMIT.backoffMultiplier, attempt);
+          RATE_LIMIT.retryDelay * RATE_LIMIT.backoffMultiplier ** attempt;
         await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
@@ -123,12 +122,12 @@ export function formatPhoneNumber(phone: string): string {
 
   // If starts with 0, replace with country code (62 for Indonesia)
   if (cleaned.startsWith("0")) {
-    cleaned = "62" + cleaned.substring(1);
+    cleaned = `62${cleaned.substring(1)}`;
   }
 
   // If doesn't start with country code, add it
   if (!cleaned.startsWith("62")) {
-    cleaned = "62" + cleaned;
+    cleaned = `62${cleaned}`;
   }
 
   return cleaned;

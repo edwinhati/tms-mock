@@ -9,16 +9,16 @@ import {
   WifiOff,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useDriverShipments } from "@/hooks/use-driver-shipments";
+import { authClient } from "@/lib/auth/client";
 import * as storage from "@/lib/offline/storage";
 import * as sync from "@/lib/offline/sync";
 import type { Shipment } from "@/types/tms";
-import { authClient } from "@/lib/auth/client";
 
 export default function DriverShipmentsPage() {
   const router = useRouter();
@@ -184,9 +184,7 @@ export default function DriverShipmentsPage() {
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-gray-400" />
                       <span className="text-gray-600">
-                        To:{" "}
-                        {(shipment as any).destinationName ||
-                          shipment.destinationId}
+                        To: {shipment.destinationName || shipment.destinationId}
                       </span>
                     </div>
                   </div>

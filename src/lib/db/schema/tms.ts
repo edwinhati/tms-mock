@@ -472,19 +472,19 @@ export const vendorsRelations = relations(vendors, ({ many }) => ({
   vehicles: many(vehicles),
 }));
 
-export const warehousesRelations = relations(warehouses, ({ many }) => ({
+export const warehousesRelations = relations(warehouses, () => ({
   // Relations will be handled polymorphically via originId/destinationId
 }));
 
-export const hubsRelations = relations(hubs, ({ many }) => ({
+export const hubsRelations = relations(hubs, () => ({
   // Relations will be handled polymorphically via originId/destinationId
 }));
 
-export const portsRelations = relations(ports, ({ many }) => ({
+export const portsRelations = relations(ports, () => ({
   // Relations will be handled polymorphically via originId/destinationId
 }));
 
-export const schoolsRelations = relations(schools, ({ many }) => ({
+export const schoolsRelations = relations(schools, () => ({
   // Relations will be handled polymorphically via originId/destinationId
 }));
 
@@ -508,7 +508,7 @@ export const goodsRelations = relations(goods, ({ many }) => ({
   shipmentItems: many(shipmentItems),
 }));
 
-export const shippingRatesRelations = relations(shippingRates, ({ one }) => ({
+export const shippingRatesRelations = relations(shippingRates, () => ({
   // Polymorphic relations not easily represented in Drizzle relations API
 }));
 

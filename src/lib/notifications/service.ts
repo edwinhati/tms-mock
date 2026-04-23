@@ -1,12 +1,13 @@
 // Notification service for sending WhatsApp notifications
+
+import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { notifications } from "@/lib/db/schema/tms";
 import {
-  sendWhatsAppNotification,
   formatPhoneNumber,
+  sendWhatsAppNotification,
 } from "@/lib/whatsapp/client";
-import { templates } from "@/lib/whatsapp/templates";
-import { eq } from "drizzle-orm";
+import { templates, type WhatsAppTemplate } from "@/lib/whatsapp/templates";
 
 export interface NotificationPayload {
   type:
@@ -44,7 +45,7 @@ export async function sendNotification(
       .returning();
 
     // Build WhatsApp message based on type
-    let template;
+    let template: WhatsAppTemplate;
     switch (payload.type) {
       case "driver_assigned":
         template = templates.driverAssigned(

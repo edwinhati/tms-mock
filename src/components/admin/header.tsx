@@ -1,7 +1,7 @@
 "use client";
 
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { SearchIcon, BellIcon, LogOut, User, Settings } from "lucide-react";
+import { BellIcon, LogOut, SearchIcon, Settings, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth/client";
-import { useRouter } from "next/navigation";
 
 export function Header() {
   const router = useRouter();

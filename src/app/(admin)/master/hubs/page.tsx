@@ -1,12 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { AddressSelector } from "@/components/ui/address-selector";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,14 +34,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormInput } from "@/components/ui/form-wrapper";
-import { AddressSelector } from "@/components/ui/address-selector";
 import {
-  useHubs,
   useCreateHub,
-  useUpdateHub,
   useDeleteHub,
+  useHubs,
+  useUpdateHub,
 } from "@/hooks/use-hubs";
-import { hubSchema, type HubFormValues } from "@/lib/schemas";
+import { type HubFormValues, hubSchema } from "@/lib/schemas";
 import type { Hub } from "@/types/tms";
 
 export default function HubsPage() {

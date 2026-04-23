@@ -152,7 +152,7 @@ export function isViewer(role: UserRole): boolean {
 export function getUserRole(
   user: { role?: string | null; [key: string]: unknown } | null | undefined,
 ): UserRole {
-  if (!user || !user.role) {
+  if (!user?.role) {
     return ROLES.VIEWER;
   }
 

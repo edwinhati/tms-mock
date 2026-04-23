@@ -1,11 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -39,8 +39,8 @@ import {
   useVehicles,
 } from "@/hooks/use-vehicles";
 import { useVendorsHook } from "@/hooks/use-vendors";
+import { type VehicleFormValues, vehicleSchema } from "@/lib/schemas";
 import type { Vehicle } from "@/types/tms";
-import { vehicleSchema, type VehicleFormValues } from "@/lib/schemas";
 
 const vehicleTypes: { value: string; label: string }[] = [
   { value: "truck", label: "Truck" },
@@ -50,7 +50,7 @@ const vehicleTypes: { value: string; label: string }[] = [
 ];
 
 export default function VehiclesPage() {
-  const { data: vehicles, isLoading, isError, refetch } = useVehicles();
+  const { data: vehicles, isLoading } = useVehicles();
   const deleteVehicle = useDeleteVehicle();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);

@@ -3,8 +3,8 @@
 import { format, isValid } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import * as React from "react";
-import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import {
   Popover,

@@ -1,6 +1,5 @@
 import type { Shipment, ShipmentWithRelations } from "@/types/tms";
 import type {
-  OfflineStorageData,
   PendingPhotoUpload,
   PendingStatusUpdate,
   PendingUpdate,

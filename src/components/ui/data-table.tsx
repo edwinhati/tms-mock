@@ -1,17 +1,17 @@
 "use client";
 
-import * as React from "react";
 import {
+  type Column, // Import Column type
   type ColumnDef,
   type ColumnFiltersState,
-  type SortingState,
-  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  type SortingState,
   useReactTable,
+  type VisibilityState,
 } from "@tanstack/react-table";
 import {
   ChevronDownIcon,
@@ -19,24 +19,16 @@ import {
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
-  MoreVerticalIcon,
   FilterIcon,
+  MoreVerticalIcon,
   PlusIcon,
   SearchIcon,
   Settings2Icon,
 } from "lucide-react";
+import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Combobox,
   ComboboxContent,
@@ -45,6 +37,13 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -398,7 +397,7 @@ export function DataTableRowActions({ children }: DataTableRowActionsProps) {
 
 // Helper for sortable column headers
 interface DataTableColumnHeaderProps<TData, TValue> {
-  column: any;
+  column: Column<TData, TValue>; // Use Column type here
   title: string;
   className?: string;
 }

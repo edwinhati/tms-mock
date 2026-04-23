@@ -1,30 +1,20 @@
 "use client";
 
-import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type * as React from "react";
 import {
-  FormProvider,
-  useForm,
-  useFormContext,
-  type UseFormProps,
-  type UseFormReturn,
-  type FieldPath,
-  type FieldValues,
   Controller,
   type ControllerProps,
+  type FieldPath,
   type FieldPathValue,
+  type FieldValues,
+  FormProvider,
+  type UseFormProps,
+  type UseFormReturn,
+  useForm,
+  useFormContext,
 } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
-import { cn } from "@/lib/utils";
-import {
-  Field,
-  FieldLabel,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Combobox,
   ComboboxContent,
@@ -33,6 +23,16 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 // ============================================================================
 // Form Wrapper Component
@@ -94,7 +94,7 @@ interface FormFieldProps<
       onChange: (value: FieldPathValue<TFieldValues, TName>) => void;
       onBlur: () => void;
       name: TName;
-      ref: React.RefCallback<any>;
+      ref: React.Ref<HTMLInputElement | HTMLTextAreaElement | null>; // More specific ref type
       disabled?: boolean;
     };
     fieldState: {
@@ -178,7 +178,7 @@ function FormInput<TFieldValues extends FieldValues>({
           {...field}
           {...props}
           value={field.value as string}
-          onChange={(e) => (field.onChange as any)(e.target.value)}
+          onChange={(e) => field.onChange(e.target.value)}
           aria-invalid={fieldState.error ? "true" : "false"}
           className={cn(className)}
         />
@@ -219,7 +219,7 @@ function FormTextarea<TFieldValues extends FieldValues>({
           {...field}
           {...props}
           value={field.value as string}
-          onChange={(e) => (field.onChange as any)(e.target.value)}
+          onChange={(e) => field.onChange(e.target.value)}
           aria-invalid={fieldState.error ? "true" : "false"}
           className={cn(className)}
         />
@@ -267,8 +267,8 @@ function FormSelect<TFieldValues extends FieldValues>({
     >
       {({ field, fieldState }) => (
         <Combobox
-          value={field.value as any}
-          onValueChange={field.onChange as any}
+          value={field.value}
+          onValueChange={field.onChange}
           disabled={disabled || field.disabled}
         >
           <ComboboxInput
@@ -297,12 +297,12 @@ function FormSelect<TFieldValues extends FieldValues>({
 // createForm Hook Helper
 // ============================================================================
 
-interface CreateFormOptions<TSchema extends z.ZodType<any, any>> {
+interface CreateFormOptions<TSchema extends z.ZodTypeAny> {
   schema: TSchema;
-  defaultValues?: UseFormProps<z.infer<TSchema>>["defaultValues"];
+  defaultValues?: UseFormProps<z.ZodTypeAny>["defaultValues"];
 }
 
-function createForm<TSchema extends z.ZodType<any, any>>({
+function createForm<TSchema extends z.ZodTypeAny>({
   schema,
   defaultValues,
 }: CreateFormOptions<TSchema>) {
@@ -312,7 +312,7 @@ function createForm<TSchema extends z.ZodType<any, any>>({
     props?: Omit<UseFormProps<FormValues>, "resolver" | "defaultValues">,
   ) {
     return useForm<FormValues>({
-      resolver: zodResolver(schema) as any,
+      resolver: zodResolver(schema),
       defaultValues: defaultValues as UseFormProps<FormValues>["defaultValues"],
       ...props,
     });
@@ -326,16 +326,16 @@ function createForm<TSchema extends z.ZodType<any, any>>({
 // ============================================================================
 
 export {
+  createForm,
   Form,
   FormField,
-  FormInput,
-  FormTextarea,
-  FormSelect,
-  useFormField,
-  createForm,
-  type FormProps,
   type FormFieldProps,
+  FormInput,
   type FormInputProps,
-  type FormTextareaProps,
+  type FormProps,
+  FormSelect,
   type FormSelectProps,
+  FormTextarea,
+  type FormTextareaProps,
+  useFormField,
 };

@@ -1,7 +1,7 @@
-import { QueryProvider } from "@/lib/api/query-provider";
 import { AppSidebar } from "@/components/admin/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Header } from "@/components/admin/header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { QueryProvider } from "@/lib/api/query-provider";
 
 export default function AdminLayout({
   children,

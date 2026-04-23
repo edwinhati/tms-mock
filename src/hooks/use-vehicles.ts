@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { CreateVehicleInput, Vehicle } from "@/types/tms";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/client";
+import type { CreateVehicleInput, Vehicle } from "@/types/tms";
 
 const API_BASE = "/api/vehicles";
 

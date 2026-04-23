@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  getDistricts,
   getProvinces,
   getRegencies,
-  getDistricts,
   getVillages,
 } from "@/lib/wilayah/api";
 
@@ -17,7 +17,8 @@ export function useProvinces() {
 export function useRegencies(provinceCode?: string) {
   return useQuery({
     queryKey: ["wilayah", "regencies", provinceCode],
-    queryFn: () => getRegencies(provinceCode!),
+    queryFn: () =>
+      provinceCode ? getRegencies(provinceCode) : Promise.resolve([]),
     enabled: !!provinceCode,
     staleTime: Infinity,
   });
@@ -26,7 +27,8 @@ export function useRegencies(provinceCode?: string) {
 export function useDistricts(regencyCode?: string) {
   return useQuery({
     queryKey: ["wilayah", "districts", regencyCode],
-    queryFn: () => getDistricts(regencyCode!),
+    queryFn: () =>
+      regencyCode ? getDistricts(regencyCode) : Promise.resolve([]),
     enabled: !!regencyCode,
     staleTime: Infinity,
   });
@@ -35,7 +37,8 @@ export function useDistricts(regencyCode?: string) {
 export function useVillages(districtCode?: string) {
   return useQuery({
     queryKey: ["wilayah", "villages", districtCode],
-    queryFn: () => getVillages(districtCode!),
+    queryFn: () =>
+      districtCode ? getVillages(districtCode) : Promise.resolve([]),
     enabled: !!districtCode,
     staleTime: Infinity,
   });

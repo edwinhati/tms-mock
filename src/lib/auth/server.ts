@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { openAPI, admin } from "better-auth/plugins";
+import { admin, openAPI } from "better-auth/plugins";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
 
@@ -51,6 +51,7 @@ export const auth =
   });
 
 if (process.env.NODE_ENV !== "production") {
+  // biome-ignore lint/suspicious/noExplicitAny: Global singleton for dev
   globalForAuth.auth = auth as any;
 }
 

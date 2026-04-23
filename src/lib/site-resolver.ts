@@ -1,13 +1,13 @@
+import { inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
-  warehouses,
+  customers,
   hubs,
   ports,
   schools,
   vendors,
-  customers,
+  warehouses,
 } from "@/lib/db/schema";
-import { inArray } from "drizzle-orm";
 
 export type SiteType =
   | "warehouse"
@@ -34,11 +34,12 @@ export async function resolveSiteNames(
     if (!typeMap.has(site.type)) {
       typeMap.set(site.type, new Set());
     }
-    typeMap.get(site.type)!.add(site.id);
+    typeMap.get(site.type)?.add(site.id);
   }
 
   const promises: Promise<void>[] = [];
 
+  // biome-ignore lint/suspicious/noExplicitAny: Complex Drizzle table type
   const addPromise = async (type: SiteType, table: any, ids: string[]) => {
     if (ids.length === 0) return;
     const data = await db
@@ -51,35 +52,32 @@ export async function resolveSiteNames(
     }
   };
 
-  if (typeMap.has("warehouse")) {
-    promises.push(
-      addPromise(
-        "warehouse",
-        warehouses,
-        Array.from(typeMap.get("warehouse")!),
-      ),
-    );
-  }
-  if (typeMap.has("hub")) {
-    promises.push(addPromise("hub", hubs, Array.from(typeMap.get("hub")!)));
-  }
-  if (typeMap.has("port")) {
-    promises.push(addPromise("port", ports, Array.from(typeMap.get("port")!)));
-  }
-  if (typeMap.has("school")) {
-    promises.push(
-      addPromise("school", schools, Array.from(typeMap.get("school")!)),
-    );
-  }
-  if (typeMap.has("vendor")) {
-    promises.push(
-      addPromise("vendor", vendors, Array.from(typeMap.get("vendor")!)),
-    );
-  }
-  if (typeMap.has("customer")) {
-    promises.push(
-      addPromise("customer", customers, Array.from(typeMap.get("customer")!)),
-    );
+  for (const [type, ids] of typeMap.entries()) {
+    // biome-ignore lint/suspicious/noExplicitAny: Complex Drizzle table type
+    let table: any;
+    switch (type) {
+      case "warehouse":
+        table = warehouses;
+        break;
+      case "hub":
+        table = hubs;
+        break;
+      case "port":
+        table = ports;
+        break;
+      case "school":
+        table = schools;
+        break;
+      case "vendor":
+        table = vendors;
+        break;
+      case "customer":
+        table = customers;
+        break;
+    }
+    if (table) {
+      promises.push(addPromise(type, table, Array.from(ids)));
+    }
   }
 
   await Promise.all(promises);

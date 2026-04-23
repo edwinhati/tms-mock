@@ -2,24 +2,24 @@
 
 import { format } from "date-fns";
 import { id as localeId } from "date-fns/locale";
-import { Download, FileText, Loader2, QrCode } from "lucide-react";
+import { Download, Loader2, QrCode } from "lucide-react";
 import { useParams } from "next/navigation";
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
+import { SignaturePad } from "@/components/bast/signature-pad";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { SignaturePad } from "@/components/bast/signature-pad";
-import {
-  generateBASTDocument,
-  downloadBASTDocument,
-} from "@/lib/bast/generator";
-import { validateBASTData } from "@/lib/bast/template";
 import { useShipment } from "@/hooks/use-shipments";
 import { useToast } from "@/hooks/use-toast";
+import {
+  downloadBASTDocument,
+  generateBASTDocument,
+} from "@/lib/bast/generator";
+import { validateBASTData } from "@/lib/bast/template";
 
 export default function BASTPage() {
   const params = useParams();

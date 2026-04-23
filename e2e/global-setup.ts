@@ -12,7 +12,7 @@ async function globalSetup(config: FullConfig) {
     } else {
       console.warn("Server health check returned:", response.status);
     }
-  } catch (error) {
+  } catch (_error) {
     console.warn("Could not reach server. Make sure it's running on", baseURL);
   }
 }

@@ -1,12 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { IconEdit, IconPlus, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { AddressSelector } from "@/components/ui/address-selector";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,13 +34,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormInput, FormSelect } from "@/components/ui/form-wrapper";
-import { AddressSelector } from "@/components/ui/address-selector";
 import {
   useCreateSchool,
   useDeleteSchool,
   useSchools,
 } from "@/hooks/use-schools";
-import { schoolSchema, type SchoolFormValues } from "@/lib/schemas";
+import { type SchoolFormValues, schoolSchema } from "@/lib/schemas";
 import type { EducationLevel, School } from "@/types/tms";
 
 const educationLevels: { value: EducationLevel; label: string }[] = [
@@ -50,7 +50,7 @@ const educationLevels: { value: EducationLevel; label: string }[] = [
 ];
 
 export default function SchoolsPage() {
-  const { data: schools, isLoading, isError, refetch } = useSchools();
+  const { data: schools, isLoading } = useSchools();
 
   const deleteSchool = useDeleteSchool();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -66,7 +66,7 @@ export default function SchoolsPage() {
         const name = row.getValue("name");
         const displayName =
           typeof name === "object" && name !== null
-            ? (name as any).name || JSON.stringify(name)
+            ? name.name || JSON.stringify(name)
             : String(name || "-");
         return <div className="font-medium">{displayName}</div>;
       },

@@ -13,7 +13,7 @@ const STATIC_ASSETS = [
 ];
 
 // API routes to cache with network-first strategy
-const API_ROUTES = ["/api/driver/shipments"];
+const _API_ROUTES = ["/api/driver/shipments"];
 
 // Install event - cache static assets
 self.addEventListener("install", (event) => {
@@ -144,7 +144,7 @@ async function handleApiRequest(request) {
     }
 
     throw new Error("Network response not ok");
-  } catch (error) {
+  } catch (_error) {
     console.log("[SW] Network failed, trying cache for:", url.pathname);
 
     // Try to get from cache
@@ -184,7 +184,7 @@ async function handleImageRequest(request) {
       cache.put(request, response.clone());
     }
     return response;
-  } catch (error) {
+  } catch (_error) {
     // Return a placeholder image or error response
     return new Response("Image not available offline", { status: 503 });
   }

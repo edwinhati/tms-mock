@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { CreateShippingRateInput, ShippingRate } from "@/types/tms";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/client";
+import type { CreateShippingRateInput, ShippingRate } from "@/types/tms";
 
 const API_BASE = "/api/shipping-rates";
 

@@ -25,6 +25,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox";
 import { DataTable } from "@/components/ui/data-table";
 import { DatePickerInput } from "@/components/ui/date-picker";
 import {
@@ -34,14 +42,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
-import {
-  Combobox,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from "@/components/ui/combobox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCustomers } from "@/hooks/use-customers";
 import { useDrivers } from "@/hooks/use-drivers";
@@ -51,7 +51,7 @@ import {
   useReportStats,
   useShipmentReports,
 } from "@/hooks/use-reports";
-import { useVehicles } from "@/hooks/use-vehicles";
+
 import type { ShipmentStatus } from "@/types/tms";
 
 const statusOptions: { value: ShipmentStatus | "all"; label: string }[] = [
@@ -382,7 +382,6 @@ export default function ReportsPage() {
   const { data: stats, isLoading: statsLoading } = useReportStats(filters);
   const { data: customers } = useCustomers();
   const { data: allDrivers } = useDrivers();
-  const { data: vehicles } = useVehicles();
 
   // Handle filter changes
   const handleFilterChange = useCallback(

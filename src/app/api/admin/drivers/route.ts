@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
+import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db";
 import { drivers, users } from "@/lib/db/schema";
-import { auth } from "@/lib/auth/server";
 
 function validatePhone(phone: string): boolean {
   return /^08\d{8,11}$/.test(phone);
@@ -13,7 +13,7 @@ export async function GET() {
       with: {
         user: true,
       },
-      orderBy: (t: any, { desc }: any) => [desc(t.createdAt)],
+      orderBy: (t, { desc }) => [desc(t.createdAt)],
     });
 
     const formattedDrivers = driversWithUsers.map((driver) => ({
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
     // 1. Create User & Account via Better Auth Admin API
     // This handles password hashing, roles, and linking correctly in one call
     // Using type assertion to access admin plugin's createUser method
-    const authResult = await (auth as any).admin.createUser({
+    const authResult = await auth.admin.createUser({
       body: {
         email,
         password,

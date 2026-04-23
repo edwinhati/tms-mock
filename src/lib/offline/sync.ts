@@ -2,7 +2,6 @@ import * as storage from "./storage";
 import type {
   PendingPhotoUpload,
   PendingStatusUpdate,
-  PendingUpdate,
   SyncResult,
 } from "./types";
 

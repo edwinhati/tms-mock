@@ -61,7 +61,7 @@ export function SignInForm({ onSuccess }: SignInFormProps): React.ReactNode {
 
         // Fetch session to determine role and redirect
         const session = await authClient.getSession();
-        const role = (session?.data?.user as any)?.role;
+        const role = session?.data?.user?.role;
 
         if (redirectTo !== "/") {
           router.push(redirectTo);

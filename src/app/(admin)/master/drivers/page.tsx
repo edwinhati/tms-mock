@@ -323,7 +323,7 @@ function DriverForm({ driver, onSuccess }: DriverFormProps) {
         toast.error("Password is required for new drivers");
         return;
       }
-      createDriver.mutate(data as any, {
+      createDriver.mutate(data, {
         onSuccess: () => {
           toast.success("Driver created successfully");
           onSuccess();

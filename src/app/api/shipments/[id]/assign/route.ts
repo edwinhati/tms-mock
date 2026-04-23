@@ -25,7 +25,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = await params;
+    await params; // Await params to ensure it's resolved, even if 'id' isn't directly used from it
     const body = await request.json();
     const validatedData = assignSchema.parse(body);
 

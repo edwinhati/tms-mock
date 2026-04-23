@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiDelete, apiGet, apiPost, apiPut } from "@/lib/api/client";
-import type { Hub } from "@/types/tms";
 import type { HubFormValues } from "@/lib/schemas";
+import type { Hub } from "@/types/tms";
 
 const API_BASE = "/api/hubs";
 
